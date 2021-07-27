@@ -13,8 +13,6 @@ export default function App() {
     return <Login />;
   }
 
-  console.log("user", { user });
-
   return (
     <div className="app" style={{ ...page }}>
       App
