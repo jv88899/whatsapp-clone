@@ -10,6 +10,7 @@ import {
 import React from "react";
 import { NavLink, Route, Switch } from "react-router-dom";
 import { auth, createTimestamp, db } from "../firebase";
+import useChats from "../hooks/useChats";
 import useRooms from "../hooks/useRooms";
 import useUsers from "../hooks/useUsers";
 import "./Sidebar.css";
@@ -19,6 +20,8 @@ import "./SidebarList.css";
 export default function Sidebar({ user, page }) {
   const rooms = useRooms();
   const users = useUsers(user);
+  const chats = useChats(user);
+
   const [menu, setMenu] = React.useState(1);
 
   function signOut() {
