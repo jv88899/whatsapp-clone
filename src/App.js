@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import "./App.css";
 import Chat from "./components/Chat";
 import Login from "./components/Login";
@@ -17,6 +17,7 @@ export default function App() {
 
   return (
     <div className="app" style={{ ...page }}>
+      <Redirect to={page.isMobile ? "/chats" : "/"} />
       <div className="app__body">
         <Sidebar user={user} page={page} />
         <Route path="/room/:roomId">
