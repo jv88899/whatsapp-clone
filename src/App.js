@@ -1,13 +1,12 @@
 import React from "react";
 import useWindowSize from "./hooks/useWindowSize";
 import Login from "./components/Login";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./firebase";
 import "./App.css";
+import useAuthUser from "./hooks/useAuthUser";
 
 export default function App() {
   const page = useWindowSize();
-  const [user] = useAuthState(auth);
+  const user = useAuthUser();
 
   if (!user) {
     return <Login />;
