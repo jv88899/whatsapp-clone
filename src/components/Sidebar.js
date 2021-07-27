@@ -1,7 +1,4 @@
-import React from "react";
 import { Avatar, IconButton } from "@material-ui/core";
-import "./Sidebar.css";
-import "./SidebarList.css";
 import {
   Add,
   ExitToApp,
@@ -10,8 +7,12 @@ import {
   PeopleAlt,
   SearchOutlined,
 } from "@material-ui/icons";
+import React from "react";
+import { NavLink, Route, Switch } from "react-router-dom";
 import { auth } from "../firebase";
-import { Link, NavLink } from "react-router-dom";
+import "./Sidebar.css";
+import SidebarList from "./SidebarList";
+import "./SidebarList.css";
 
 export default function Sidebar({ user, page }) {
   const [menu, setMenu] = React.useState(1);
@@ -95,6 +96,30 @@ export default function Sidebar({ user, page }) {
           </div>
         </Nav>
       </div>
+      {page.isMobile ? (
+        <Switch>
+          <Route path="/chats">
+            <SidebarList />
+          </Route>
+          <Route path="/rooms">
+            <SidebarList />
+          </Route>
+          <Route path="/users">
+            <SidebarList />
+          </Route>
+          <Route path="/search">
+            <SidebarList />
+          </Route>
+        </Switch>
+      ) : menu === 1 ? (
+        <SidebarList />
+      ) : menu === 2 ? (
+        <SidebarList />
+      ) : menu === 3 ? (
+        <SidebarList />
+      ) : menu === 4 ? (
+        <SidebarList />
+      ) : null}
       <div className="sidebar__chat--addRoom">
         <IconButton>
           <Add />
