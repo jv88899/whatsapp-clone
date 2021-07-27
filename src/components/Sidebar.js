@@ -2,12 +2,36 @@ import React from "react";
 import { Avatar, IconButton } from "@material-ui/core";
 import "./Sidebar.css";
 import "./SidebarList.css";
-import { Add, ExitToApp, SearchOutlined } from "@material-ui/icons";
+import {
+  Add,
+  ExitToApp,
+  Home,
+  Message,
+  PeopleAlt,
+  SearchOutlined,
+} from "@material-ui/icons";
 import { auth } from "../firebase";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Sidebar({ user, page }) {
+  const [menu, setMenu] = React.useState(1);
+
   function signOut() {
     auth.signOut();
+  }
+
+  let Nav;
+  if (page.isMobile) {
+    Nav = NavLink;
+  } else {
+    Nav = (props) => (
+      <div
+        className={`${props.activeClass ? "sidebar__menu--selected" : ""} `}
+        onClick={props.onClick}
+      >
+        {props.children}
+      </div>
+    );
   }
 
   return (
@@ -35,6 +59,41 @@ export default function Sidebar({ user, page }) {
             id="search"
           />
         </form>
+      </div>
+      <div className="sidebar__menu">
+        <Nav
+          to="/chats"
+          activeClassName="sidebar__menu--selected"
+          onClick={() => setMenu(1)}
+          activeClass={menu === 1}
+        >
+          <div className="sidebar__menu--home">
+            <Home />
+            <div className="sidebar__menu--line" />
+          </div>
+        </Nav>
+        <Nav
+          to="/rooms"
+          activeClassName="sidebar__menu--selected"
+          onClick={() => setMenu(2)}
+          activeClass={menu === 2}
+        >
+          <div className="sidebar__menu--rooms">
+            <Message />
+            <div className="sidebar__menu--line" />
+          </div>
+        </Nav>
+        <Nav
+          to="/users"
+          activeClassName="sidebar__menu--selected"
+          onClick={() => setMenu(3)}
+          activeClass={menu === 3}
+        >
+          <div className="sidebar__menu--users">
+            <PeopleAlt />
+            <div className="sidebar__menu--line" />
+          </div>
+        </Nav>
       </div>
       <div className="sidebar__chat--addRoom">
         <IconButton>
