@@ -7,8 +7,8 @@ export default function useRoom(roomId, userId) {
   const doc = isUserRoom ? roomId?.replace(userId, "") : roomId;
 
   const [snapshot] = useDocument(
-    db.collection(isUserRoom ? "users" : "rooms")
-  ).doc(doc);
+    db.collection(isUserRoom ? "users" : "rooms").doc(doc)
+  );
 
   if (!snapshot) return null;
 
