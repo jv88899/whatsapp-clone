@@ -9,7 +9,7 @@ import {
 } from "@material-ui/icons";
 import React from "react";
 import { NavLink, Route, Switch } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth, createTimestamp, db } from "../firebase";
 import "./Sidebar.css";
 import SidebarList from "./SidebarList";
 import "./SidebarList.css";
@@ -19,6 +19,17 @@ export default function Sidebar({ user, page }) {
 
   function signOut() {
     auth.signOut();
+  }
+
+  function createRoom() {
+    const roomName = prompt("Type the name of your room");
+
+    if (roomName.trim()) {
+      db.collection("rooms").add({
+        name: roomName,
+        timestamp: createTimestamp(),
+      });
+    }
   }
 
   let Nav;
@@ -121,7 +132,7 @@ export default function Sidebar({ user, page }) {
         <SidebarList />
       ) : null}
       <div className="sidebar__chat--addRoom">
-        <IconButton>
+        <IconButton onClick={createRoom}>
           <Add />
         </IconButton>
       </div>
