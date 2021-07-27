@@ -11,12 +11,14 @@ import React from "react";
 import { NavLink, Route, Switch } from "react-router-dom";
 import { auth, createTimestamp, db } from "../firebase";
 import useRooms from "../hooks/useRooms";
+import useUsers from "../hooks/useUsers";
 import "./Sidebar.css";
 import SidebarList from "./SidebarList";
 import "./SidebarList.css";
 
 export default function Sidebar({ user, page }) {
   const rooms = useRooms();
+  const users = useUsers(user);
   const [menu, setMenu] = React.useState(1);
 
   function signOut() {
