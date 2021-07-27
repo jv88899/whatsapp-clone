@@ -1,4 +1,4 @@
-import { useCollection } from "react-firebase-hooks";
+import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 
 export default function useRooms() {
