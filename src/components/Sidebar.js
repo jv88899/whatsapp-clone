@@ -120,7 +120,7 @@ export default function Sidebar({ user, page }) {
             <SidebarList title="Rooms" data={rooms} />
           </Route>
           <Route path="/users">
-            <SidebarList title="Users" data={[]} />
+            <SidebarList title="Users" data={users} />
           </Route>
           <Route path="/search">
             <SidebarList title="Search Results" data={[]} />
@@ -131,7 +131,7 @@ export default function Sidebar({ user, page }) {
       ) : menu === 2 ? (
         <SidebarList title="Rooms" data={rooms} />
       ) : menu === 3 ? (
-        <SidebarList title="Users" data={[]} />
+        <SidebarList title="Users" data={users} />
       ) : menu === 4 ? (
         <SidebarList title="Search Results" data={[]} />
       ) : null}
