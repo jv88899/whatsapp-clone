@@ -29,6 +29,11 @@ export default function Chat({ user, page }) {
     }
   }
 
+  function closePreview() {
+    setSrc("");
+    setImage(null);
+  }
+
   return (
     <div className="chat">
       <div style={{ height: page.height }} className="chat__background" />
@@ -72,7 +77,7 @@ export default function Chat({ user, page }) {
           <ChatMessages />
         </div>
       </div>
-      <MediaPreview src={src} />
+      <MediaPreview src={src} closePreview={closePreview} />
       <ChatFooter />
     </div>
   );
