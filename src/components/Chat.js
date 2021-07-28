@@ -149,7 +149,7 @@ export default function Chat({ user, page }) {
       </div>
       <div className="chat__body--container">
         <div className="chat__body" style={{ height: page.height - 68 }}>
-          <ChatMessages />
+          <ChatMessages messages={messages} user={user} roomId={roomId} />
         </div>
       </div>
       <MediaPreview src={src} closePreview={closePreview} />
