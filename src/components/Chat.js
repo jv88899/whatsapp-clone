@@ -5,6 +5,7 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { createTimestamp, db, storage } from "../firebase";
+import useChatMessages from "../hooks/useChatMessages";
 import useRoom from "../hooks/useRoom";
 import "./Chat.css";
 import ChatFooter from "./ChatFooter";
@@ -17,8 +18,9 @@ export default function Chat({ user, page }) {
   const [src, setSrc] = React.useState("");
 
   const { roomId } = useParams();
-  const room = useRoom(roomId, user.uid);
   const history = useHistory();
+  const messages = useChatMessages(roomId);
+  const room = useRoom(roomId, user.uid);
 
   function onChange(event) {
     setInput(event.target.value);
