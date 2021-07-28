@@ -9,9 +9,25 @@ import { Avatar, IconButton, Menu, MenuItem } from "@material-ui/core";
 import { AddPhotoAlternate, ArrowBack, MoreVert } from "@material-ui/icons";
 
 export default function Chat({ user, page }) {
+  const [image, setImage] = React.useState(null);
+  const [src, setSrc] = React.useState("");
+
   const { roomId } = useParams();
   const room = useRoom(roomId, user.uid);
   const history = useHistory();
+
+  function showPreview(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setSrc(reader.result);
+      };
+    }
+  }
 
   return (
     <div className="chat">
@@ -36,6 +52,7 @@ export default function Chat({ user, page }) {
             style={{ display: "none" }}
             accept="image/*"
             type="file"
+            onChange={showPreview}
           />
           <IconButton>
             <label style={{ cursor: "pointer", height: 24 }} htmlFor="image">
@@ -55,7 +72,7 @@ export default function Chat({ user, page }) {
           <ChatMessages />
         </div>
       </div>
-      <MediaPreview />
+      <MediaPreview src={src} />
       <ChatFooter />
     </div>
   );
