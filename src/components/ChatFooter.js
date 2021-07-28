@@ -7,7 +7,15 @@ import {
 import React from "react";
 import "./ChatFooter.css";
 
-export default function ChatFooter() {
+export default function ChatFooter({
+  input,
+  onChange,
+  sendMessage,
+  image,
+  user,
+  room,
+  roomId,
+}) {
   const [isRecording, setRecording] = React.useState(false);
 
   const btnIcons = (
@@ -22,9 +30,21 @@ export default function ChatFooter() {
   return (
     <div className="chat__footer">
       <form>
-        <input placeholder="Type a message" />
+        <input
+          value={input}
+          onChange={!isRecording ? onChange : null}
+          placeholder="Type a message"
+        />
         {canRecord ? (
-          <button type="submit" className="send__btn">
+          <button
+            onClick={
+              input.trim() || (input === "" && image)
+                ? sendMessage
+                : () => false
+            }
+            type="submit"
+            className="send__btn"
+          >
             {btnIcons}
           </button>
         ) : (
