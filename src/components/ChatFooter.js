@@ -62,6 +62,17 @@ export default function ChatFooter({
     return String(value).length < 2 ? `0${value}` : value;
   }
 
+  function stopRecording() {
+    inputRef.current.focus();
+    clearInterval(timerInterval.current);
+    const audio = record.current.stop();
+    recordingEl.current.style.opacity = "0";
+    setRecording(false);
+    inputRef.current.style.width = "calc(100% - 112px)";
+    setDuration("00:00");
+    return audio;
+  }
+
   const btnIcons = (
     <>
       <Send style={{ width: 20, height: 20, color: "white" }} />
@@ -109,7 +120,10 @@ export default function ChatFooter({
       </form>
       {isRecording && (
         <div ref={recordingEl} className="record">
-          <CancelRounded style={{ width: 30, height: 30, color: "#f20519" }} />
+          <CancelRounded
+            style={{ width: 30, height: 30, color: "#f20519" }}
+            onClick={stopRecording}
+          />
           <div>
             <div className="record__redcircle" />
             <div className="record__duration">{duration}</div>
