@@ -20,7 +20,9 @@ export default function ChatFooter({
   setAudioId,
 }) {
   const [isRecording, setRecording] = React.useState(false);
+  const [duration, setDuration] = React.useState("00:00");
 
+  const timerInterval = React.useRef();
   const recordingEl = React.useRef();
   const record = React.useRef();
   const inputRef = React.useRef();
@@ -37,9 +39,28 @@ export default function ChatFooter({
   React.useEffect(() => {
     if (isRecording) {
       recordingEl.current.style.opacity = "1";
+      startTimer();
       record.current.start();
     }
   }, [isRecording]);
+
+  function startTimer() {
+    const start = Date.now();
+    timerInterval.current = setInterval(setTime, 100);
+
+    function setTime() {
+      const timeElapsed = Date.now() - start;
+      const totalSeconds = Math.floor(timeElapsed / 1000);
+      const minutes = pad(parseInt(totalSeconds / 60));
+      const seconds = pad(parseInt(totalSeconds % 60));
+      const duration = `${minutes}:${seconds}`;
+      setDuration(duration);
+    }
+  }
+
+  function pad(value) {
+    return String(value).length < 2 ? `0${value}` : value;
+  }
 
   const btnIcons = (
     <>
@@ -91,7 +112,7 @@ export default function ChatFooter({
           <CancelRounded style={{ width: 30, height: 30, color: "#f20519" }} />
           <div>
             <div className="record__redcircle" />
-            <div className="record__duration" />
+            <div className="record__duration">{duration}</div>
           </div>
           <CheckCircleRounded
             style={{ width: 30, height: 30, color: "#41bf49" }}
