@@ -15,6 +15,8 @@ import MediaPreview from "./MediaPreview";
 export default function Chat({ user, page }) {
   const [image, setImage] = React.useState(null);
   const [input, setInput] = React.useState("");
+  const [openMenu, setOpenMenu] = React.useState(null);
+  const [isDeleting, setDeleting] = React.useState(false);
   const [src, setSrc] = React.useState("");
   const [audioId, setAudioId] = React.useState("");
 
@@ -140,10 +142,16 @@ export default function Chat({ user, page }) {
               <AddPhotoAlternate />
             </label>
           </IconButton>
-          <IconButton>
+          <IconButton onClick={(event) => setOpenMenu(event.currentTarget)}>
             <MoreVert />
           </IconButton>
-          <Menu id="menu" keepMounted open={false}>
+          <Menu
+            id="menu"
+            keepMounted
+            open={Boolean(openMenu)}
+            onClose={() => setOpenMenu(null)}
+            anchorEl={openMenu}
+          >
             <MenuItem>Delete Room</MenuItem>
           </Menu>
         </div>
