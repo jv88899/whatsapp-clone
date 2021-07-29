@@ -9,6 +9,7 @@ import React from "react";
 import { audioStorage, createTimestamp, db } from "../firebase";
 import "./ChatFooter.css";
 import recordAudio from "./recordAudio";
+import { v4 as uuid } from "uuid";
 
 export default function ChatFooter({
   input,
@@ -115,6 +116,15 @@ export default function ChatFooter({
       });
   }
 
+  function audioInputChange(event) {
+    const audioFile = event.target.files[0];
+
+    if (audioFile) {
+      setAudioId("");
+      sendAudio(audioFile, uuid());
+    }
+  }
+
   const btnIcons = (
     <>
       <Send style={{ width: 20, height: 20, color: "white" }} />
@@ -156,6 +166,7 @@ export default function ChatFooter({
               id="capture"
               accept="audio/*"
               capture
+              onChange={audioInputChange}
             />
           </>
         )}
