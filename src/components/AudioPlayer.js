@@ -114,6 +114,17 @@ export default function AudioPlayer({
     setDuration(totalDuration.current);
   }
 
+  function scrubAudio(event) {
+    const value = event.target.value;
+    const { duration } = audio.current;
+
+    if (isMediaLoaded) {
+      const seekTo = duration * (value / 100);
+      audio.current.currentTime = seekTo;
+      setSliderValue(value);
+    }
+  }
+
   return (
     <>
       <div className={`audioplayer ${sender ? "" : "audioplayer__alt"}`}>
@@ -134,6 +145,7 @@ export default function AudioPlayer({
             min="1"
             max="100"
             value={sliderValue}
+            onChange={scrubAudio}
             className="audioplayer__slider"
           />
         </div>
