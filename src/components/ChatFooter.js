@@ -6,6 +6,7 @@ import {
   Send,
 } from "@material-ui/icons";
 import React from "react";
+import { audioStorage, createTimestamp, db } from "../firebase";
 import "./ChatFooter.css";
 import recordAudio from "./recordAudio";
 
@@ -42,27 +43,27 @@ export default function ChatFooter({
       startTimer();
       record.current.start();
     }
-  }, [isRecording]);
 
-  function startTimer() {
-    const start = Date.now();
-    timerInterval.current = setInterval(setTime, 100);
+    function startTimer() {
+      const start = Date.now();
+      timerInterval.current = setInterval(setTime, 100);
 
-    function setTime() {
-      const timeElapsed = Date.now() - start;
-      const totalSeconds = Math.floor(timeElapsed / 1000);
-      const minutes = pad(parseInt(totalSeconds / 60));
-      const seconds = pad(parseInt(totalSeconds % 60));
-      const duration = `${minutes}:${seconds}`;
-      setDuration(duration);
+      function setTime() {
+        const timeElapsed = Date.now() - start;
+        const totalSeconds = Math.floor(timeElapsed / 1000);
+        const minutes = pad(parseInt(totalSeconds / 60));
+        const seconds = pad(parseInt(totalSeconds % 60));
+        const duration = `${minutes}:${seconds}`;
+        setDuration(duration);
+      }
     }
-  }
+  }, [isRecording]);
 
   function pad(value) {
     return String(value).length < 2 ? `0${value}` : value;
   }
 
-  function stopRecording() {
+  async function stopRecording() {
     inputRef.current.focus();
     clearInterval(timerInterval.current);
     const audio = record.current.stop();
@@ -71,6 +72,47 @@ export default function ChatFooter({
     inputRef.current.style.width = "calc(100% - 112px)";
     setDuration("00:00");
     return audio;
+  }
+
+  async function finishRecording() {
+    const audio = await stopRecording();
+    const { audioFile, audioName } = await audio;
+    sendAudio(audioFile, audioName);
+  }
+
+  async function sendAudio(audioFile, audioName) {
+    db.collection("users")
+      .doc(user.uid)
+      .collection("chats")
+      .doc(roomId)
+      .set({
+        name: room.name,
+        photoURL: room.photoURL || null,
+        timestamp: createTimestamp(),
+      });
+
+    const doc = await db
+      .collection("rooms")
+      .doc(roomId)
+      .collection("messages")
+      .add({
+        name: user.displayName,
+        uid: user.uid,
+        timestamp: createTimestamp(),
+        time: new Date().toUTCString(),
+        audioUrl: "uploading",
+        audioName,
+      });
+
+    await audioStorage.child(audioName).put(audioFile);
+    const url = await audioStorage.child(audioName).getDownloadURL();
+    db.collection("rooms")
+      .doc(roomId)
+      .collection("messages")
+      .doc(doc.id)
+      .update({
+        audioUrl: url,
+      });
   }
 
   const btnIcons = (
@@ -130,6 +172,7 @@ export default function ChatFooter({
           </div>
           <CheckCircleRounded
             style={{ width: 30, height: 30, color: "#41bf49" }}
+            onClick={finishRecording}
           />
         </div>
       )}
