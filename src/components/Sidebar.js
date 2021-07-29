@@ -113,7 +113,7 @@ export default function Sidebar({ user, page }) {
           to="/chats"
           activeClassName="sidebar__menu--selected"
           onClick={() => setMenu(1)}
-          activeClass={menu === 1}
+          // activeClass={menu === 1}
         >
           <div className="sidebar__menu--home">
             <Home />
@@ -124,7 +124,7 @@ export default function Sidebar({ user, page }) {
           to="/rooms"
           activeClassName="sidebar__menu--selected"
           onClick={() => setMenu(2)}
-          activeClass={menu === 2}
+          // activeClass={menu === 2}
         >
           <div className="sidebar__menu--rooms">
             <Message />
@@ -135,7 +135,7 @@ export default function Sidebar({ user, page }) {
           to="/users"
           activeClassName="sidebar__menu--selected"
           onClick={() => setMenu(3)}
-          activeClass={menu === 3}
+          // activeClass={menu === 3}
         >
           <div className="sidebar__menu--users">
             <PeopleAlt />
