@@ -42,7 +42,6 @@ export default function Sidebar({ user, page }) {
 
   async function searchUsersAndRooms(event) {
     event.preventDefault();
-    console.log("working");
     const query = event.target.elements.search.value;
     const userSnapshot = await db
       .collection("users")

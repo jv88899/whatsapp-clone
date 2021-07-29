@@ -2,7 +2,6 @@ import {
   CancelRounded,
   CheckCircleRounded,
   MicRounded,
-  ReceiptRounded,
   Send,
 } from "@material-ui/icons";
 import React from "react";
