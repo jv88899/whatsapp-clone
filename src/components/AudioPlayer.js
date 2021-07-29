@@ -125,6 +125,13 @@ export default function AudioPlayer({
     }
   }
 
+  React.useEffect(() => {
+    if (audioId !== id) {
+      audio.current.pause();
+      setPlaying(false);
+    }
+  }, [audioId, id]);
+
   return (
     <>
       <div className={`audioplayer ${sender ? "" : "audioplayer__alt"}`}>
